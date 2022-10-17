@@ -1,13 +1,14 @@
 CREATE TABLE IF NOT EXISTS staff
 (
 	staff_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	first_name varchar(50) NOT NULL,
-	last_name varchar(50) NOT NULL,
-	email varchar(50) NOT NULL,
-	phone varchar(12) NOT NULL,
-	street varchar(50) NOT NULL,
-	city varchar(50) NOT NULL,
-	postal_code varchar(4) NOT NULL
+	staff_position varchar(80) NOT NULL,
+	first_name varchar(30) NOT NULL,
+	last_name varchar(30) NOT NULL,
+	email varchar(100) NOT NULL UNIQUE,
+	phone varchar(15) NOT NULL,
+	username varchar(30) NOT NULL,
+	password varchar(30) NOT NULL,
+	is_active bit
 );
 
 CREATE TABLE IF NOT EXISTS inspection
@@ -15,15 +16,15 @@ CREATE TABLE IF NOT EXISTS inspection
 	inspection_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	inspection_date date NOT NULL,
 	pass bit NOT NULL,
-	comment varchar(255)
+	comment varchar(500)
 );
 
 CREATE TABLE IF NOT EXISTS lease
 (
 	lease_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	rent_price decimal(19,0) NOT NULL,
+	rent_amount decimal(19,0) NOT NULL,
 	rent_period varchar(11) NOT NULL,
-	bond_price decimal(19,0) NOT NULL,
+	bond_amount decimal(19,0) NOT NULL,
 	bond_paid bit NOT NULL,
 	start_date date NOT NULL,
 	end_date date NOT NULL
@@ -32,75 +33,74 @@ CREATE TABLE IF NOT EXISTS lease
 CREATE TABLE IF NOT EXISTS client
 (
 	client_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	first_name varchar(50) NOT NULL,
-	last_name varchar(50) NOT NULL,
-	email varchar(50) NOT NULL,
-	phone varchar(12) NOT NULL
+	first_name varchar(30) NOT NULL,
+	last_name varchar(30) NOT NULL,
+	address varchar(255),
+	city varchar(80),
+	postal_code varchar(4),
+	email varchar(100) NOT NULL UNIQUE,
+	phone varchar(15) NOT NULL,
+	company varchar(100)
 );
 
-CREATE TABLE IF NOT EXISTS job_title
-(
-	job_id int PRIMARY KEY NOT NULL,
-	job_title varchar(30)
-);
 
 CREATE TABLE IF NOT EXISTS branch
 (
 	branch_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	name varchar(50) NOT NULL,
-	street varchar(50) NOT NULL,
-	city varchar(50) NOT NULL,
-	postal_code varchar(4) NOT NULL
+	company_id int(10) NOT NULL,
+	name varchar(100) NOT NULL,
+	address varchar(255) NOT NULL,
+	city varchar(80) NOT NULL,
+	postal_code varchar(4) NOT NULL,
+	phone int(15) NOT NULL,
+	email varchar(100) NOT NULL UNIQUE
+	
 );
 
 CREATE TABLE IF NOT EXISTS owner
 (
 	owner_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	first_name varchar(50) NOT NULL,
-	last_name varchar(50) NOT NULL,
-	email varchar(50) NOT NULL,
-	phone varchar(12) NOT NULL,
-	street varchar(50) NOT NULL,
-	city varchar(50) NOT NULL,
-	postal_code varchar(4) NOT NULL
+	first_name varchar(30) NOT NULL,
+	last_name varchar(30) NOT NULL,
+	company varchar(100),
+	address varchar(255) NOT NULL,
+	city varchar(80) NOT NULL,
+	postal_code varchar(4) NOT NULL,
+	phone varchar(15) NOT NULL,
+	email varchar(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS property
 (
 	property_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	street varchar(50) NOT NULL,
-	city varchar(50) NOT NULL,
+	address varchar(255) NOT NULL,
+	city varchar(80) NOT NULL,
 	postal_code varchar(4) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS advertisement
+CREATE TABLE IF NOT EXISTS advert
 (
-	advertisement_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	start_date date NOT NULL,
-	end_date date NOT NULL
+	advert_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	publisher varchar(100) NOT NULL,
+	display_date date NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS viewing
 (
-	view_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	date_viewed date NOT NULL
+	date_viewed date PRIMARY KEY NOT NULL,
+	comment varchar(500)
 );
 
-CREATE TABLE IF NOT EXISTS history
+CREATE TABLE IF NOT EXISTS registration
 (
-	history_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	start_date date NOT NULL,
-	end_date date NOT NULL,
-	damages decimal(19,0) NOT NULL
+	reg_date date NOT NULL
 );
 
-
-
-ALTER TABLE advertisement 
+ALTER TABLE advert 
 ADD COLUMN property_id int;
 
-ALTER TABLE advertisement 
-ADD CONSTRAINT FK_property_advertisement
+ALTER TABLE advert 
+ADD CONSTRAINT FK_property_advert
 FOREIGN KEY (property_id) REFERENCES property(property_id);
 
 
@@ -109,14 +109,6 @@ ADD COLUMN property_id int;
 
 ALTER TABLE client
 ADD CONSTRAINT FK_property_client
-FOREIGN KEY (property_id) REFERENCES property(property_id);
-
-
-ALTER TABLE history  
-ADD COLUMN property_id int;
-
-ALTER TABLE history  
-ADD CONSTRAINT FK_property_history
 FOREIGN KEY (property_id) REFERENCES property(property_id);
 
 
@@ -134,16 +126,18 @@ FOREIGN KEY (lease_id) REFERENCES lease(lease_id);
 
 
 ALTER TABLE lease 
-ADD COLUMN client_id int;
+ADD COLUMN property_id int;
 
 ALTER TABLE lease  
-ADD CONSTRAINT FK_client_lease
-FOREIGN KEY (client_id) REFERENCES client(client_id);
+ADD CONSTRAINT FK_property_lease
+FOREIGN KEY (property_id) REFERENCES property(property_id);
 
 
 ALTER TABLE property  
 ADD COLUMN owner_id int,
-ADD COLUMN client_id int;
+ADD COLUMN client_id int,
+ADD COLUMN staff_id int,
+ADD COLUMN branch_id int;
 
 ALTER TABLE property
 ADD CONSTRAINT FK_owner_property
@@ -153,18 +147,21 @@ ALTER TABLE property
 ADD CONSTRAINT FK_client_property
 FOREIGN KEY (client_id) REFERENCES client(client_id);
 
+ALTER TABLE property
+ADD CONSTRAINT FK_staff_property
+FOREIGN KEY (staff_id) REFERENCES staff(staff_id);
+
+ALTER TABLE property
+ADD CONSTRAINT FK_branch_property
+FOREIGN KEY (branch_id) REFERENCES branch(branch_id);
+
 
 ALTER TABLE staff  
-ADD COLUMN branch_id int,
-ADD COLUMN job_id int;
+ADD COLUMN branch_id int;
 
 ALTER TABLE staff
 ADD CONSTRAINT FK_branch_staff
 FOREIGN KEY (branch_id) REFERENCES branch(branch_id);
-
-ALTER TABLE staff
-ADD CONSTRAINT FK_title_staff
-FOREIGN KEY (job_id) REFERENCES job_title(job_id);
 
 
 ALTER TABLE viewing  
@@ -177,5 +174,18 @@ FOREIGN KEY (property_id) REFERENCES property(property_id);
 
 ALTER TABLE viewing
 ADD CONSTRAINT FK_client_viewing
+FOREIGN KEY (client_id) REFERENCES client(client_id);
+
+
+ALTER TABLE registration
+ADD COLUMN branch_id int,
+ADD COLUMN client_id int;
+
+ALTER TABLE registration
+ADD CONSTRAINT FK_branch_registration
+FOREIGN KEY (branch_id) REFERENCES branch(branch_id);
+
+ALTER TABLE registration
+ADD CONSTRAINT FK_client_registration
 FOREIGN KEY (client_id) REFERENCES client(client_id);
 
