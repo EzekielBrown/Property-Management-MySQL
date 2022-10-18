@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS client
 CREATE TABLE IF NOT EXISTS branch
 (
 	branch_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	company_id int(10) NOT NULL,
+	company_id varchar(10) NOT NULL,
 	name varchar(100) NOT NULL,
 	address varchar(255) NOT NULL,
 	city varchar(80) NOT NULL,
