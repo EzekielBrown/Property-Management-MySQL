@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS branch
 	address varchar(255) NOT NULL,
 	city varchar(80) NOT NULL,
 	postal_code varchar(4) NOT NULL,
-	phone int(15) NOT NULL,
+	phone varchar(15) NOT NULL,
 	email varchar(100) NOT NULL UNIQUE
 	
 );
