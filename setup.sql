@@ -87,12 +87,14 @@ CREATE TABLE IF NOT EXISTS advert
 
 CREATE TABLE IF NOT EXISTS viewing
 (
-	date_viewed date PRIMARY KEY NOT NULL,
+	view_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	date_viewed date NOT NULL,
 	comment varchar(500)
 );
 
 CREATE TABLE IF NOT EXISTS registration
 (
+	reg_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	reg_date date NOT NULL
 );
 
