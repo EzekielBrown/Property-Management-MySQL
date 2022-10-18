@@ -1,14 +1,20 @@
 
 -- A list of all properties, including the property address, owner and agent responsible for each property ordered alphabetically by city.
-SELECT property.property_id, property.address, property.city, concat(owner.first_name, owner.last_name), concat(staff.first_name, staff.last_name)
+SELECT property.property_id, property.address, property.city, concat(owner.first_name," ", owner.last_name), concat(staff.first_name," ", staff.last_name)
 FROM property 
 JOIN owner ON property.owner_id = owner.owner_id 
 JOIN staff ON property.staff_id = staff.staff_id 
 GROUP BY property_id
-ORDER BY city;
+ORDER BY city, address ASC;
 
 
 --  A list of the properties available to rent or lease, including the property lease/rent amount and period, the property address and agents responsible for each property ordered low to high by rental/lease price.
+SELECT p.property_id, p.address, l.rent_amount, l.rent_period, concat(s.first_name," ", s.last_name)
+FROM property p
+JOIN lease l ON p.property_id = l.property_id
+JOIN staff s ON p.staff_id = s.staff_id
+GROUP BY property_id
+ORDER BY l.rent_amount
 
 -- A list of staff including their name, phone, email, position (i.e. agent, accounts etc..) and their manager filtered by branch ordered alphabetically by the agent's name.
 
