@@ -1,9 +1,9 @@
 
 -- A list of all properties, including the property address, owner and agent responsible for each property ordered alphabetically by city.
-SELECT property.property_id, property.address, property.city, concat(owner.first_name," ", owner.last_name), concat(staff.first_name," ", staff.last_name)
-FROM property 
-JOIN owner ON property.owner_id = owner.owner_id 
-JOIN staff ON property.staff_id = staff.staff_id 
+SELECT p.property_id, p.address, p.city, concat(o.first_name," ", o.last_name), concat(s.first_name," ", s.last_name)
+FROM property p
+JOIN owner o ON p.owner_id = o.owner_id 
+JOIN staff s ON p.staff_id = s.staff_id 
 GROUP BY property_id
 ORDER BY city, address ASC;
 
@@ -17,6 +17,12 @@ GROUP BY property_id
 ORDER BY l.rent_amount
 
 -- A list of staff including their name, phone, email, position (i.e. agent, accounts etc..) and their manager filtered by branch ordered alphabetically by the agent's name.
+SELECT concat(s.first_name," ", s.last_name), s.phone, s.phone, s.staff_position, b.name
+FROM staff s
+JOIN branch b ON s.branch_id = b.branch_id
+GROUP BY s.branch_id  
+ORDER BY concat(s.first_name," ", s.last_name)
+
 
 -- A list of current owners and tenants, including their contact details and a field indicating if they are an owner, or tenant ordered alphabetically by name.
 
