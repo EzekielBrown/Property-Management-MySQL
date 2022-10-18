@@ -1,4 +1,12 @@
+
 -- A list of all properties, including the property address, owner and agent responsible for each property ordered alphabetically by city.
+SELECT property.property_id, property.address, property.city, concat(owner.first_name, owner.last_name), concat(staff.first_name, staff.last_name)
+FROM property 
+JOIN owner ON property.owner_id = owner.owner_id 
+JOIN staff ON property.staff_id = staff.staff_id 
+GROUP BY property_id
+ORDER BY city;
+
 
 --  A list of the properties available to rent or lease, including the property lease/rent amount and period, the property address and agents responsible for each property ordered low to high by rental/lease price.
 
