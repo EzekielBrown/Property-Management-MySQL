@@ -104,14 +104,6 @@ ADD CONSTRAINT FK_property_advert
 FOREIGN KEY (property_id) REFERENCES property(property_id);
 
 
-ALTER TABLE client 
-ADD COLUMN property_id int;
-
-ALTER TABLE client
-ADD CONSTRAINT FK_property_client
-FOREIGN KEY (property_id) REFERENCES property(property_id);
-
-
 ALTER TABLE inspection  
 ADD COLUMN staff_id int,
 ADD COLUMN lease_id int;
