@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS staff
 	staff_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	branch_id int(10) NOT NULL,
 	staff_position varchar(80) NOT NULL,
-	manager_id int(10)
+	manager_id int(10),
 	first_name varchar(30) NOT NULL,
 	last_name varchar(30) NOT NULL,
 	email varchar(100) NOT NULL UNIQUE,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS lease
 	lease_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	property_id int(10) NOT NULL,
 	rent_amount decimal(19,0) NOT NULL,
-	rent_period varchar(11) NOT NULL,
+	rent_period varchar(21) NOT NULL,
 	bond_amount decimal(19,0) NOT NULL,
 	bond_paid bit NOT NULL,
 	start_date date NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS lease_customer
 (
 	client_id int(10) NOT NULL,
 	lease_id int(10) NOT NULL
-)
+);
 
 CREATE TABLE IF NOT EXISTS owner
 (
