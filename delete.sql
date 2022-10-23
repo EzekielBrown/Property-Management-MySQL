@@ -1,41 +1,19 @@
-ALTER TABLE advert
-DROP FOREIGN KEY FK_property_advert;
+-- Delete Tables Script
 
-ALTER TABLE inspection
-DROP FOREIGN KEY FK_lease_inspection,
-DROP FOREIGN KEY FK_staff_inspection;
+SET FOREIGN_KEY_CHECKS = 0;
 
-ALTER TABLE lease
-DROP FOREIGN KEY FK_property_lease;
+DROP TABLE IF EXISTS advert;
+DROP TABLE IF EXISTS branch;
+DROP TABLE IF EXISTS client;
+DROP TABLE IF EXISTS inspection;
+DROP TABLE IF EXISTS lease;
+DROP TABLE IF EXISTS owner;
+DROP TABLE IF EXISTS property;
+DROP TABLE IF EXISTS staff;
+DROP TABLE IF EXISTS viewing;
+DROP TABLE IF EXISTS registration;
+DROP TABLE IF EXISTS lease_customer;
 
-ALTER TABLE property
-DROP FOREIGN KEY FK_branch_property,
-DROP FOREIGN KEY FK_owner_property,
-DROP FOREIGN KEY FK_staff_property,
-DROP FOREIGN KEY FK_client_property;
+SET FOREIGN_KEY_CHECKS = 1;
 
-ALTER TABLE staff
-DROP FOREIGN KEY FK_branch_staff;
-
-
-ALTER TABLE viewing
-DROP FOREIGN KEY FK_client_viewing,
-DROP FOREIGN KEY FK_property_viewing;
-
-ALTER TABLE registration
-DROP FOREIGN KEY FK_client_registration,
-DROP FOREIGN KEY FK_branch_registration;
-
-
-
-DROP TABLE advert;
-DROP TABLE branch;
-DROP TABLE client;
-DROP TABLE inspection;
-DROP TABLE lease;
-DROP TABLE owner;
-DROP TABLE property;
-DROP TABLE staff;
-DROP TABLE viewing;
-DROP TABLE registration;
-
+DROP ROLE IF EXISTS admin_user, agent_user, accounts_user, manager_user;
