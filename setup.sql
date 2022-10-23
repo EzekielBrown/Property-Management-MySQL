@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS lease
 (
 	lease_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	property_id int(10) NOT NULL,
-	rent_amount decimal(19,0) NOT NULL,
+	rent_amount decimal(19,4) NOT NULL,
 	rent_period varchar(21) NOT NULL,
-	bond_amount decimal(19,0) NOT NULL,
+	bond_amount decimal(19,4) NOT NULL,
 	bond_paid bit NOT NULL,
 	start_date date NOT NULL,
 	end_date date NOT NULL
