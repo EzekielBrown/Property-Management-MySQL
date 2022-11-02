@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS lease_customer;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
-DROP ROLE IF EXISTS admin_user, agent_user, accounts_user, manager_user;
+DROP ROLE IF EXISTS admin_users, agent_users, accounts_users, manager_users;
 
 -- Create Tables Script
 
@@ -196,34 +196,34 @@ FOREIGN KEY (client_id) REFERENCES client(client_id);
 
 -- Permissions
 
-CREATE ROLE admin_user, agent_user, accounts_user, manager_user;
+CREATE ROLE admin_users, agent_users, manager_users, accounts_users;
 
 GRANT ALL
 ON jt_property_management.*
-TO admin_user;
+TO admin_users;
 
 GRANT DELETE, DROP, SELECT, UPDATE
 ON jt_property_management.*
-TO accounts_user;
+TO accounts_users;
 
 GRANT DELETE, DROP, INSERT, SELECT, UPDATE
 ON jt_property_management.*
-TO manager_user;
+TO manager_users;
 
 GRANT SELECT, UPDATE, INSERT 
 ON jt_property_management.lease
-TO agent_user;
+TO agent_users;
 
 GRANT SELECT, UPDATE, INSERT 
 ON jt_property_management.property
-TO agent_user;
+TO agent_users;
 
 GRANT SELECT, UPDATE, INSERT 
 ON jt_property_management.inspection
-TO agent_user;
+TO agent_users;
 
 GRANT SELECT, UPDATE, INSERT 
 ON jt_property_management.viewing
-TO agent_user;
+TO agent_users;
 
 

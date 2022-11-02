@@ -30,10 +30,10 @@ ORDER BY concat(s.first_name," ", s.last_name)
 
 -- Q4. A list of current owners and tenants, including their contact details and a field indicating if they are an owner, or tenant ordered alphabetically by name.
 
-SELECT 'Owner' as owner_id, concat(o.first_name, " ", o.last_name) as Name, phone, email
+SELECT 'Owner' AS owner_id, concat(o.first_name, " ", o.last_name) AS Name, phone, email
 FROM owner o
 UNION
-SELECT 'Tenant' as client_id, concat(c.first_name, " ", c.last_name) as Name, phone, email
+SELECT 'Tenant' AS client_id, concat(c.first_name, " ", c.last_name) AS Name, phone, email
 FROM client c
 ORDER BY Name
 
@@ -70,10 +70,14 @@ WHERE property.staff_id = 5;
 
 SELECT COUNT(staff_id)
 FROM property
-WHERE staff_id = 10;
+WHERE staff_id = 5;
 
 
 -- Q8. A query to delete all the client property viewings older than 12 months.
+
+SELECT *
+FROM viewing
+WHERE date_viewed < '2021-10-23'
 
 DELETE FROM viewing
 WHERE date_viewed < '2021-10-23'
@@ -90,9 +94,17 @@ FROM property
 WHERE owner_id = 10
 
 SET FOREIGN_KEY_CHECKS = 0;
+
 DELETE FROM property
 WHERE owner_id = 10;
-SET FOREIGN_KEY_CHECKS = 0;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 
 -- Q10. Write your own query relevant to the scenario and include a written description of what the query is aiming to do.
+-- Create a query to display clients first name, last name, address, city and zip code. Only showing clients with the zipcode between 9000 and 9999, ordered by lowest to highest
+
+SELECT concat(c.first_name," ", c.last_name) AS Name, c.address, c.city, c.postal_code  
+FROM client c
+WHERE postal_code >= 9000 AND postal_code <=9999
+ORDER BY postal_code ASC;
