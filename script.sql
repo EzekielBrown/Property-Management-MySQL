@@ -41,13 +41,14 @@ ORDER BY Name
 -- Q5. A list of clients that have viewed properties in the last four weeks, including the client's name, contact details and the number of properties they have visited, filtered by the branch they are registered with ordered high to low by the visits.
 #
 
-SELECT COUNT(v.client_id) AS "Num of Viewers",v.date_viewed, concat(c.first_name," ", c.last_name), c.phone, c.email, r.branch_id 
+SELECT COUNT(v.client_id) AS "Num of Views",v.date_viewed, concat(c.first_name," ", c.last_name), c.phone, c.email, p.branch_id 
 FROM viewing v
 LEFT JOIN client c ON v.client_id = c.client_id
-LEFT JOIN registration r ON c.client_id = r.client_id
+LEFT JOIN property p ON c.client_id = p.client_id
 WHERE v.date_viewed BETWEEN '2022-09-23' AND '2022-10-23'
 GROUP BY v.client_id
 ORDER BY "Num of Viewers" DESC;
+
 
 
 -- Q6. A list of upcoming adverts placed, including the property, date and the publication where the advert has been placed ordered by date showing the newest first.
